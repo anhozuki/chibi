@@ -3,8 +3,8 @@ class Q(object):
         self.a = a
         self.b = b
     def __repr__(self):
-        return 'hoge'
-    
+        return f'{self.a}/{self.b}'
+
 
 q = Q(1,2)
 print(q)
