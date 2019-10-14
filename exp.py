@@ -56,5 +56,18 @@ e = Sub(Val(2),Val(1))
 print(e.eval())
 assert e.eval() == 1
 
+class Div(object):
+    __slots__=['left','right']
+    def __init__(self, a, b):
+        self.left = a
+        self.right = b
+    def eval(self):
+        return self.left.eval() / self.right.eval()
+
+e = Div(Val(7),Val(2))
+
+print(e.eval())
+assert e.eval() == 3
+
 print()
 print()
