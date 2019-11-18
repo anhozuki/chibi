@@ -1,11 +1,5 @@
 
 example Value 123
-example Zip 141-0001
 
-Zip = {
-    Value'-'Value
-    #Zip
-}
 
-value = {DIGIT+#Int }
-DIGIT = [0-9]
+Value = [0-9]
