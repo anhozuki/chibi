@@ -64,6 +64,10 @@ class Lt(Binary):#left!=light
     __slots__ = ['left', 'right']
     def eval(self, env: dict):#cond ? x : y
         return 1 if self.left.eval(env) < self.right.eval(env) else 0
+class Gt(Binary):#left!=light
+    __slots__ = ['left', 'right']
+    def eval(self, env: dict):#cond ? x : y
+        return 1 if self.left.eval(env) > self.right.eval(env) else 0
 class Var(Expr):
     __slots__ = ['name']
     def __init__(self, name):
@@ -83,7 +87,7 @@ class Assign(Expr):
 class Block(Expr):
     __slots__=['exprs']
     def __init__(self, exprs):
-        self.exprs=expers
+        self.exprs=exprs
     def eval(self, env):
         pass
 class While(Expr):
@@ -105,6 +109,14 @@ class If(Expr):
             return self.then.eval(env)
         else:
             return self.else_.eval(env)
+
+e = Block(
+    Assign('x',Val(1)),
+    Assign('y',Val(2)),
+    If(Gt(Var('x'),Var('y'),Var('x'),Var('y')))
+)
+assert e.eval ({}) == 2
+
 def conv(tree):
     if tree == 'Block':
         return conv(tree[0])
@@ -128,6 +140,8 @@ def conv(tree):
         return Ne(conv(tree[0]), conv(tree[1]))
     if tree == 'Lt':
         return Lt(conv(tree[0]), conv(tree[1]))
+    if tree == 'Gt':
+        return Gt(conv(tree[0]), conv(tree[1]))
     if tree == 'Var':
         return Var(str(tree))
     if tree == 'LetDecl':
