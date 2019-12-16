@@ -136,6 +136,22 @@ print(repr(f))
 
 class FuncApp(Expr):
     __slots__ = ['func', 'param']
+    def __init__(self, func: Lambda, param):
+        self.func = func
+        self.param = Expr.new(param)
+    def __repr__(self):
+        return f'({repr(self.func)}) ({repr(self.param)})'
+
+    def eval(self,env):
+        v=self.param.eval(env) #パラメータを先に評価する
+        name = self.func.name　#Lambdaの変数名をとる
+        env[name]  = v　#環境から引数を渡す
+        return self.func.body.eval(env)
+
+e = FuncApp(f, Add(1,1))
+
+print(e,'=>' , e.eval({}))
+
 
 def conv(tree):
     if tree == 'Block':
