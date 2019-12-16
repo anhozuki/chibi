@@ -119,6 +119,24 @@ class If(Expr):
             return self.then.eval(env)
         else:
             return self.else_.eval(env)
+class Lambda(Expr):
+    __slots__ = ['name', 'body']
+    def __init__(self, name, body):
+        self.name = name
+        self.body = body
+
+    def repr(self):
+        return f'λ{self.name} . {str(self.body)}'
+
+    def eval(self, env):
+        pass
+
+f = Lambda('x',Add(Var('x'), 1)) #λx . x+1
+print(repr(f))
+
+class FuncApp(Expr):
+    __slots__ = ['func', 'param']
+
 def conv(tree):
     if tree == 'Block':
         return conv(tree[0])
